@@ -57,7 +57,7 @@ namespace Game4Freak.Inkognito
             }
             if (command[0].ToLower() == "off")
             {
-                if (!player.HasPermission(Permissions + ".off"))
+                if (!player.HasPermission(Permissions[0] + ".off"))
                 {
                     UnturnedChat.Say(caller, "You dont have permissions to do that!", Color.red);
                     return;
@@ -68,7 +68,7 @@ namespace Game4Freak.Inkognito
             }
             else if (command[0].ToLower() == "on")
             {
-                if (!player.HasPermission(Permissions + ".on"))
+                if (!player.HasPermission(Permissions[0] + ".on"))
                 {
                     UnturnedChat.Say(caller, "You dont have permissions to do that!", Color.red);
                     return;
@@ -86,7 +86,7 @@ namespace Game4Freak.Inkognito
                 }
                 if (command.Length == 1)
                 {
-                    if (player.HasPermission(Permissions + ".refresh") || player.HasPermission(Permissions + ".refresh.self"))
+                    if (player.HasPermission(Permissions[0] + ".refresh") || player.HasPermission(Permissions[0] + ".refresh.self"))
                     {
                         player.SteamPlayer().playerID.characterName = Inkognito.Instance.Configuration.Instance.InkognitoNames[Inkognito.Instance.randomNum(0, Inkognito.Instance.Configuration.Instance.InkognitoNames.Count)];
                         UnturnedChat.Say(caller, "Refreshed your name", Color.cyan);
@@ -100,7 +100,7 @@ namespace Game4Freak.Inkognito
                 }
                 else
                 {
-                    if (player.HasPermission(Permissions + ".refresh") || player.HasPermission(Permissions + ".refresh.other"))
+                    if (player.HasPermission(Permissions[0] + ".refresh") || player.HasPermission(Permissions[0] + ".refresh.other"))
                     {
                         if (command[1].ToLower() == "all")
                         {
