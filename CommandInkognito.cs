@@ -57,12 +57,22 @@ namespace Game4Freak.Inkognito
             }
             if (command[0].ToLower() == "off")
             {
+                if (!player.HasPermission(Permissions + ".off"))
+                {
+                    UnturnedChat.Say(caller, "You dont have permissions to do that!", Color.red);
+                    return;
+                }
                 Inkognito.Instance.turnOff();
                 UnturnedChat.Say(caller, "Inkognito deactivated!", Color.cyan);
                 return;
             }
             else if (command[0].ToLower() == "on")
             {
+                if (!player.HasPermission(Permissions + ".on"))
+                {
+                    UnturnedChat.Say(caller, "You dont have permissions to do that!", Color.red);
+                    return;
+                }
                 Inkognito.Instance.turnOn();
                 UnturnedChat.Say(caller, "Inkognito activated!", Color.cyan);
                 return;
