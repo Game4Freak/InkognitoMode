@@ -25,6 +25,7 @@ namespace Game4Freak.Inkognito
         public const string VERSION = "0.1.0.0";
         public bool isActive = true;
         public Dictionary<CSteamID, string> CharNames;
+        private readonly System.Random random = new System.Random();
 
         protected override void Load()
         {
@@ -84,7 +85,6 @@ namespace Game4Freak.Inkognito
 
         public int randomNum(int min, int max)
         {
-            System.Random random = new System.Random();
             return random.Next(min, max);
         }
     }
