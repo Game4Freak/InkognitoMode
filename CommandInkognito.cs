@@ -88,7 +88,7 @@ namespace Game4Freak.Inkognito
                 {
                     if (player.HasPermission(Permissions[0] + ".refresh") || player.HasPermission(Permissions[0] + ".refresh.self"))
                     {
-                        player.SteamPlayer().playerID.characterName = Inkognito.Instance.Configuration.Instance.InkognitoNames[Inkognito.Instance.randomNum(0, Inkognito.Instance.Configuration.Instance.InkognitoNames.Count)];
+                        Inkognito.Instance.refreshName(player.SteamPlayer());
                         UnturnedChat.Say(caller, "Refreshed your name", Color.cyan);
                         return;
                     }
@@ -106,7 +106,7 @@ namespace Game4Freak.Inkognito
                         {
                             foreach (var sPlayer in Provider.clients)
                             {
-                                sPlayer.playerID.characterName = Inkognito.Instance.Configuration.Instance.InkognitoNames[Inkognito.Instance.randomNum(0, Inkognito.Instance.Configuration.Instance.InkognitoNames.Count)];
+                                Inkognito.Instance.refreshName(sPlayer);
                             }
                             UnturnedChat.Say(caller, "Refreshed all names", Color.cyan);
                             return;
@@ -116,7 +116,7 @@ namespace Game4Freak.Inkognito
                             UnturnedPlayer target = UnturnedPlayer.FromName(command[1]);
                             if (target != null)
                             {
-                                target.SteamPlayer().playerID.characterName = Inkognito.Instance.Configuration.Instance.InkognitoNames[Inkognito.Instance.randomNum(0, Inkognito.Instance.Configuration.Instance.InkognitoNames.Count)];
+                                Inkognito.Instance.refreshName(target.SteamPlayer());
                                 UnturnedChat.Say(caller, "Refreshed the name of " + target.SteamName, Color.cyan);
                             }
                             else
