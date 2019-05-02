@@ -22,7 +22,7 @@ namespace Game4Freak.Inkognito
     public class Inkognito : RocketPlugin<InkognitoConfiguration>
     {
         public static Inkognito Instance;
-        public const string VERSION = "0.2.0.0";
+        public const string VERSION = "0.3.0.0";
         public bool isActive = true;
         public Dictionary<CSteamID, string> CharNames;
         private readonly System.Random random = new System.Random();
@@ -45,10 +45,52 @@ namespace Game4Freak.Inkognito
 
         private void onChat(SteamPlayer player, EChatMode mode, ref Color chatted, ref bool isRich, string text, ref bool isVisible)
         {
-            if (!Configuration.Instance.InkognitoInGlobalChat && isActive && mode == EChatMode.GLOBAL && !text.StartsWith("/"))
+            if (mode != EChatMode.GLOBAL)
+                return;
+            if (text.StartsWith("/"))
+                return;
+            if (isActive)
             {
-                isVisible = false;
-                UnturnedChat.Say(CharNames[UnturnedPlayer.FromSteamPlayer(player).CSteamID] + ": " + text, chatted, isRich);
+                if (!Configuration.Instance.InkognitoInGlobalChat)
+                {
+                    isVisible = false;
+                    UnturnedChat.Say(CharNames[UnturnedPlayer.FromSteamPlayer(player).CSteamID] + ": " + text, chatted, isRich);
+                    return;
+                }
+                else
+                {
+
+                    if (UnturnedPlayer.FromSteamPlayer(player).HasPermission("inkognito.writeoriginalname"))
+                    {
+                        isVisible = false;
+                        UnturnedChat.Say(CharNames[UnturnedPlayer.FromSteamPlayer(player).CSteamID] + ": " + text, chatted, isRich);
+                        return;
+                    }
+                    bool viewEach = false;
+                    foreach (var sPlayer in Provider.clients)
+                    {
+                        if (UnturnedPlayer.FromSteamPlayer(sPlayer).HasPermission("inkognito.vieworiginalname"))
+                        {
+                            viewEach = true;
+                            break;
+                        }
+                    }
+                    if (viewEach)
+                    {
+                        foreach (var sPlayer in Provider.clients)
+                        {
+                            isVisible = false;
+                            if (UnturnedPlayer.FromSteamPlayer(sPlayer).HasPermission("inkognito.vieworiginalname"))
+                            {
+                                UnturnedChat.Say(UnturnedPlayer.FromSteamPlayer(sPlayer), CharNames[UnturnedPlayer.FromSteamPlayer(player).CSteamID] + ": " + text, chatted, isRich);
+                            }
+                            else
+                            {
+                                UnturnedChat.Say(UnturnedPlayer.FromSteamPlayer(sPlayer), UnturnedPlayer.FromSteamPlayer(player).CharacterName + ": " + text, chatted, isRich);
+                            }
+                        }
+                    }
+                }
             }
         }
 
